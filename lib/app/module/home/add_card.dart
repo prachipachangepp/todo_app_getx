@@ -6,7 +6,6 @@ import 'package:todo_app_getx/app/core/utils/extensions.dart';
 import 'package:todo_app_getx/app/core/values/colors.dart';
 import 'package:todo_app_getx/app/module/home/controller.dart';
 import 'package:todo_app_getx/widgets/icons.dart';
-
 import '../../data/models/task.dart';
 
 class AddCard extends StatelessWidget {

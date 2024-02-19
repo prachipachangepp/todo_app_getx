@@ -7,16 +7,15 @@ import 'package:todo_app_getx/app/core/utils/extensions.dart';
 import 'package:todo_app_getx/app/module/detail/widgets/doing_list.dart';
 import 'package:todo_app_getx/app/module/detail/widgets/done_list.dart';
 import 'package:todo_app_getx/app/module/home/controller.dart';
-import '../../data/models/task.dart';
 
 class DetailPage extends StatelessWidget {
-  final homeCtrl = Get.find<HeroController>();
+  final homeCtrl = Get.find<HomeController>();
   DetailPage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     var task = homeCtrl.task.value;
-    var color = HexColor.fromHex(task.color);
+    var color = HexColor.fromHex(task!.color);
     return Scaffold(
       body: Form(
         key: homeCtrl.formKey,
@@ -110,7 +109,7 @@ class DetailPage extends StatelessWidget {
                   suffixIcon: IconButton(
                     onPressed: (){
                       if(homeCtrl.formKey.currentState!.validate()){
-                        var success = homeCtrl.addTodo(homeCtrl.editctrl.text);
+                        var success = homeCtrl.addTodo(homeCtrl.editCtrl.text);
                         if(success){
                           EasyLoading.showSuccess('Todo iem add sucess');
                         }else{
@@ -131,6 +130,7 @@ class DetailPage extends StatelessWidget {
               ),
             ),
             DoingList(),
+            DoneList(),
           ],
         ),
       )

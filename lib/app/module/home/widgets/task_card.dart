@@ -5,8 +5,10 @@ import 'package:todo_app_getx/app/module/detail/view.dart';
 import '../../../data/models/task.dart';
 import 'package:step_progress_indicator/step_progress_indicator.dart';
 
+import '../controller.dart';
+
 class TaskCard extends StatelessWidget {
-  final homeCtrl = Get.find<HeroController>();
+  final homeCtrl = Get.find<HomeController>();
   final Task task;
   TaskCard({Key? key, required this.task}) : super(key: key);
 
@@ -31,8 +33,8 @@ class TaskCard extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             StepProgressIndicator(
-              totalSteps: 100,
-              currentStep: 80,
+              totalSteps: homeCtrl.isTodoEmpty(task) ? 1 : task.todos!.length,
+              currentStep: homeCtrl.isTodoEmpty(task) ? 0 : homeCtrl.getDoneTodo(task),
               size: 5,
               padding: 0,
               selectedGradientColor: LinearGradient(

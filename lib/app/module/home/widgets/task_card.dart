@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:step_progress_indicator/step_progress_indicator.dart';
 import 'package:todo_app_getx/app/core/utils/extensions.dart';
 import 'package:todo_app_getx/app/module/detail/view.dart';
+import 'package:todo_app_getx/app/module/home/controller.dart';
+
 import '../../../data/models/task.dart';
-import 'package:step_progress_indicator/step_progress_indicator.dart';
 
 import '../controller.dart';
 
@@ -17,17 +19,18 @@ class TaskCard extends StatelessWidget {
     var color = HexColor.fromHex(task.color);
     var squareWidth = Get.width - 12.0.wp;
     return GestureDetector(
-      onTap: (){
+      onTap: () {
         homeCtrl.changeTask(task);
         homeCtrl.changeTodos(task.todos ?? []);
-        Get.to(()=> DetailPage());
+        Get.to(() => DetailPage());
       },
       child: Container(
         width: squareWidth / 2,
         height: squareWidth / 2,
         margin: EdgeInsets.all(3.0.wp),
         decoration: BoxDecoration(color: Colors.white, boxShadow: [
-          BoxShadow(color: Colors.grey[300]!, blurRadius: 7, offset: Offset(0, 7))
+          BoxShadow(
+              color: Colors.grey[300]!, blurRadius: 7, offset: Offset(0, 7))
         ]),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -48,27 +51,32 @@ class TaskCard extends StatelessWidget {
             ),
             Padding(
               padding: EdgeInsets.all(6.0.wp),
-              child: Icon(IconData(task.icon,fontFamily: 'MaterialIcons'),
-              color: color,),
+              child: Icon(
+                IconData(task.icon, fontFamily: 'MaterialIcons'),
+                color: color,
+              ),
             ),
             Padding(
               padding: EdgeInsets.all(6.0.wp),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(task.title,
-                  style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 12.0.sp
+                  Text(
+                    task.title,
+                    style: TextStyle(
+                        fontWeight: FontWeight.bold, fontSize: 12.0.sp),
+                    overflow: TextOverflow.ellipsis,
                   ),
-                  overflow: TextOverflow.ellipsis,),
-                  SizedBox(height: 2.0.wp,),
-                  Text('${task.todos?.length ?? 0} Task',
+                  SizedBox(
+                    height: 2.0.wp,
+                  ),
+                  Text(
+                    '${task.todos?.length ?? 0} Task',
                     style: TextStyle(
                         fontWeight: FontWeight.bold,
-                       // fontSize: 12.0.sp,
-                      color: Colors.grey
-                    ),),
+                        // fontSize: 12.0.sp,
+                        color: Colors.grey),
+                  ),
                 ],
               ),
             )

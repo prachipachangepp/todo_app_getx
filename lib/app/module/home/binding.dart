@@ -10,8 +10,7 @@ class HomeBinding implements Bindings{
     Get.lazyPut(() => HomeController(
         taskRepository: TaskRepository(
           taskProvider: TaskProvider(),
-        )
-
+        ),
     ));
   }
 }

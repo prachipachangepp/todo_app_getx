@@ -6,11 +6,12 @@ import 'package:todo_app_getx/app/core/utils/extensions.dart';
 import 'package:todo_app_getx/app/core/values/colors.dart';
 import 'package:todo_app_getx/app/module/home/controller.dart';
 import 'package:todo_app_getx/widgets/icons.dart';
+
 import '../../data/models/task.dart';
 
 class AddCard extends StatelessWidget {
   final homeCtrl = Get.find<HomeController>();
-  AddCard({Key? key}): super(key: key);
+  AddCard({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -18,89 +19,91 @@ class AddCard extends StatelessWidget {
     var squareWidth = Get.width - 12.0.wp;
 
     return Container(
-      width: squareWidth/2 ,
-      height: squareWidth/2 ,
+      width: squareWidth / 2,
+      height: squareWidth / 2,
       margin: EdgeInsets.all(3.0.wp),
       child: InkWell(
-        onTap: ()async{
+        onTap: () async {
           await Get.defaultDialog(
-            titlePadding: EdgeInsets.symmetric(vertical: 5.0.wp),
-            radius: 5,
+              titlePadding: EdgeInsets.symmetric(vertical: 5.0.wp),
+              radius: 5,
               title: "Task Type",
-            content: Form(
-                key: homeCtrl.formKey,
-                child: Column(
-                  children: [
-                    Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 3.0.wp),
-                      child: TextFormField(
-                        controller: homeCtrl.editCtrl,
-                        decoration: InputDecoration(
-                          border: OutlineInputBorder(),
-                          labelText: 'Title',
+              content: Form(
+                  key: homeCtrl.formKey,
+                  child: Column(
+                    children: [
+                      Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 4.0.wp),
+                        child: TextFormField(
+                          controller: homeCtrl.editCtrl,
+                          decoration: InputDecoration(
+                            border: OutlineInputBorder(),
+                            labelText: 'Title',
+                          ),
+                          validator: (value) {
+                            if (value == null || value.trim().isEmpty) {
+                              return 'Please enter your task title';
+                            }
+                            return null;
+                          },
                         ),
-                        validator: (value){
-                          if(value == null || value.trim().isEmpty){
-                            return 'Please enter your task title';
-                          }
-                          return null;
-                        },
                       ),
-                    ),
-                    Padding(
-                      padding: EdgeInsets.symmetric(vertical: 5.0.wp),
-                      child: Wrap(
-                        spacing: 2.0.wp,
-                        children: icons.map((e) => Obx(
-                            (){
-                              final index = icons.indexOf(e);
-                              return ChoiceChip(
-                                  selectedColor: Colors.grey[200],
-                                  pressElevation: 0,
-                                  backgroundColor: Colors.white,
-                                  label: e,
-                                  selected: homeCtrl.chipIndex.value == index,
-                              onSelected: (bool selected){
-                                  homeCtrl.chipIndex.value = selected ? index : 0;
-
-                              }
-                              );
-                            })).toList(),
-                      ),
-                    ),
-                    ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                        primary: blue,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(20),
+                      Padding(
+                        padding: EdgeInsets.symmetric(vertical: 5.0.wp),
+                        child: Wrap(
+                          spacing: 2.0.wp,
+                          children: icons
+                              .map((e) => Obx(() {
+                                    final index = icons.indexOf(e);
+                                    return ChoiceChip(
+                                        selectedColor: Colors.grey[200],
+                                        pressElevation: 0,
+                                        backgroundColor: Colors.white,
+                                        label: e,
+                                        selected:
+                                            homeCtrl.chipIndex.value == index,
+                                        onSelected: (bool selected) {
+                                          homeCtrl.chipIndex.value =
+                                              selected ? index : 0;
+                                        });
+                                  }))
+                              .toList(),
                         ),
-                        minimumSize: const Size(150, 40)
                       ),
-                        onPressed: (){
-                        if(homeCtrl.formKey.currentState!.validate()){
-                          int icon = icons[homeCtrl.chipIndex.value].icon!.codePoint;
-                          String color = icons[homeCtrl.chipIndex.value].color!.toHex();
-                          var task =Task(
-                            title: homeCtrl.editCtrl.text,
-                            icon: icon,
-                            color : color
-                          );
-                          Get.back();
-                          homeCtrl.addTask(task) ?
-                          EasyLoading.showSuccess('Create succcess') :
-                          EasyLoading.showError('Dupllicate Task');
-                        }
-                        },
-                        child: const Text('Confirm'))
-                  ],
-                ))
-          );
+                      ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                              primary: blue,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(20),
+                              ),
+                              minimumSize: const Size(150, 40)),
+                          onPressed: () {
+                            if (homeCtrl.formKey.currentState!.validate()) {
+                              int icon = icons[homeCtrl.chipIndex.value]
+                                  .icon!
+                                  .codePoint;
+                              String color = icons[homeCtrl.chipIndex.value]
+                                  .color!
+                                  .toHex();
+                              var task = Task(
+                                  title: homeCtrl.editCtrl.text,
+                                  icon: icon,
+                                  color: color);
+                              Get.back();
+                              homeCtrl.addTask(task)
+                                  ? EasyLoading.showSuccess('Create succcess')
+                                  : EasyLoading.showError('Dupllicate Task');
+                            }
+                          },
+                          child: const Text('Confirm'))
+                    ],
+                  )));
           homeCtrl.editCtrl.clear();
           homeCtrl.changeChipIndex(0);
         },
         child: DottedBorder(
           color: Colors.grey[400]!,
-          dashPattern: [8,4],
+          dashPattern: [8, 4],
           child: Center(
             child: Icon(
               Icons.add,
@@ -108,7 +111,7 @@ class AddCard extends StatelessWidget {
               color: Colors.grey,
             ),
           ),
-      ),
+        ),
       ),
     );
   }

@@ -52,7 +52,6 @@ class Task extends Equatable {
     required this.color,
     this.todos,
   });
-
   Task copyWith({
     String? title,
     int? icon,
